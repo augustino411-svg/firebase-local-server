@@ -1,0 +1,17 @@
+-- AlterTable
+ALTER TABLE "public"."Student" ADD COLUMN     "academicStatusCode" TEXT,
+ADD COLUMN     "admissionType" TEXT,
+ADD COLUMN     "birthPlace" TEXT,
+ADD COLUMN     "classCode" TEXT,
+ADD COLUMN     "classGroupCode" TEXT,
+ADD COLUMN     "curriculumYear" TEXT,
+ADD COLUMN     "division" TEXT,
+ADD COLUMN     "educationSystem" TEXT,
+ADD COLUMN     "englishName" TEXT,
+ADD COLUMN     "guardianOccupation" TEXT,
+ADD COLUMN     "scoreChinese" TEXT,
+ADD COLUMN     "scoreEnglish" TEXT,
+ADD COLUMN     "scoreMath" TEXT,
+ADD COLUMN     "scoreScience" TEXT,
+ADD COLUMN     "scoreSocial" TEXT,
+ADD COLUMN     "scoreWriting" TEXT;
