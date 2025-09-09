@@ -1,3 +1,9 @@
+import { Router, Request, Response } from 'express'
+import { PrismaClient } from '@prisma/client'
+
+const router = Router()
+const prisma = new PrismaClient()
+
 router.post('/seed-user', async (req: Request, res: Response) => {
   try {
     const user = await prisma.user.create({
@@ -16,3 +22,5 @@ router.post('/seed-user', async (req: Request, res: Response) => {
     res.status(500).json({ message: '新增失敗' })
   }
 })
+
+export default router
