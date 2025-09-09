@@ -10,6 +10,8 @@ const JWT_SECRET = process.env.JWT_SECRET!
 router.post('/login', async (req: Request, res: Response) => {
   const { email, password } = req.body
 
+  console.log('登入請求:', { email, password }) // ✅ 除錯：印出傳入資料
+
   if (!email || !password) {
     return res.status(400).json({ message: '請提供帳號與密碼' })
   }
@@ -18,6 +20,8 @@ router.post('/login', async (req: Request, res: Response) => {
     const user = await prisma.user.findFirst({
       where: { email, passwordHash: password },
     })
+
+    console.log('查詢結果:', user) // ✅ 除錯：印出查詢結果
 
     if (!user) {
       return res.status(401).json({ message: '帳號或密碼錯誤' })
@@ -34,7 +38,6 @@ router.post('/login', async (req: Request, res: Response) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 
-    // 避免回傳密碼雜湊
     const { passwordHash, ...safeUser } = user
     res.json(safeUser)
   } catch (error) {
