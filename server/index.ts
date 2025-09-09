@@ -3,13 +3,15 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import devRoutes from './routes/dev'
-app.use('/api/dev', devRoutes)
+
 
 
 // 讀取環境變數
 dotenv.config({ path: './.env' })
 
 const app = express()
+
+app.use('/api/dev', devRoutes)
 
 // CORS 設定：支援本地與雲端前端
 const allowedOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000'
