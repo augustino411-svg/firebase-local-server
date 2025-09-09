@@ -36,7 +36,7 @@ router.post('/login', async (req: Request, res: Response) => {
 
     // 避免回傳密碼雜湊
     const { passwordHash, ...safeUser } = user
-    res.json({ id: user.id, ...safeUser })
+    res.json(safeUser)
   } catch (error) {
     console.error('Login error:', error)
     res.status(500).json({ message: '登入失敗' })
