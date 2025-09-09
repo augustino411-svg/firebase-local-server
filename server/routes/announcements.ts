@@ -1,11 +1,11 @@
-import { Router } from 'express'
+import { Router, Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 
 const router = Router()
 const prisma = new PrismaClient()
 
 // 查詢所有公告
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
   try {
     const announcements = await prisma.bulletin.findMany({
       orderBy: { createdAt: 'desc' },
@@ -18,8 +18,12 @@ router.get('/', async (req, res) => {
 })
 
 // 查詢某日公告數量（prefix = "2025-09-08"）
-router.get('/count', async (req, res) => {
+router.get('/count', async (req: Request, res: Response) => {
   const { prefix } = req.query
+  if (typeof prefix !== 'string') {
+    return res.status(400).json({ count: 0, message: 'prefix 必須是字串' })
+  }
+
   try {
     const count = await prisma.bulletin.count({
       where: {
@@ -37,8 +41,12 @@ router.get('/count', async (req, res) => {
 })
 
 // 新增公告
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
   const { title, content, user } = req.body
+  if (!user?.name || !user?.email) {
+    return res.status(400).json({ message: '缺少使用者資訊' })
+  }
+
   try {
     const announcement = await prisma.bulletin.create({
       data: {
@@ -57,9 +65,13 @@ router.post('/', async (req, res) => {
 })
 
 // 更新公告
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req: Request, res: Response) => {
   const { id } = req.params
   const { title, content, user } = req.body
+  if (!user?.name || !user?.email) {
+    return res.status(400).json({ message: '缺少使用者資訊' })
+  }
+
   try {
     const updated = await prisma.bulletin.update({
       where: { id: Number(id) },
@@ -78,7 +90,7 @@ router.patch('/:id', async (req, res) => {
 })
 
 // 刪除公告
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params
   try {
     await prisma.bulletin.delete({ where: { id: Number(id) } })

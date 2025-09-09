@@ -1,10 +1,15 @@
-import { Router } from 'express'
+import { Router, Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 
 const router = Router()
 const prisma = new PrismaClient()
 
-function calculateSchoolDays(start: Date, end: Date, holidays: string[], extraHolidays: string[]): number {
+function calculateSchoolDays(
+  start: Date,
+  end: Date,
+  holidays: string[],
+  extraHolidays: string[]
+): number {
   const allHolidays = new Set([...holidays, ...extraHolidays])
   let count = 0
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
@@ -17,7 +22,7 @@ function calculateSchoolDays(start: Date, end: Date, holidays: string[], extraHo
 }
 
 // 儲存或更新學期設定
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
   const {
     academicYear,
     semester,
@@ -29,12 +34,16 @@ router.post('/', async (req, res) => {
     permissions,
   } = req.body
 
+  if (!academicYear || !semester || !startDate || !endDate) {
+    return res.status(400).json({ message: '缺少必要欄位' })
+  }
+
   try {
     const totalSchoolDays = calculateSchoolDays(
       new Date(startDate),
       new Date(endDate),
-      holidays,
-      holidayDates
+      holidays || [],
+      holidayDates || []
     )
 
     const existing = await prisma.semester.findFirst({
@@ -65,7 +74,7 @@ router.post('/', async (req, res) => {
 })
 
 // 查詢所有學期設定
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
   try {
     const semesters = await prisma.semester.findMany({
       orderBy: { startDate: 'desc' },
@@ -78,7 +87,7 @@ router.get('/', async (req, res) => {
 })
 
 // 查詢目前學期（最新一筆）
-router.get('/current', async (req, res) => {
+router.get('/current', async (req: Request, res: Response) => {
   try {
     const current = await prisma.semester.findFirst({
       orderBy: { startDate: 'desc' },
@@ -91,7 +100,7 @@ router.get('/current', async (req, res) => {
 })
 
 // 刪除學期設定
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params
   try {
     await prisma.semester.delete({ where: { id: Number(id) } })

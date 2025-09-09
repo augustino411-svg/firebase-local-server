@@ -1,11 +1,11 @@
-import { Router } from 'express'
+import { Router, Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 
 const router = Router()
 const prisma = new PrismaClient()
 
 // 查詢所有輔導紀錄
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
   try {
     const records = await prisma.counseling.findMany({
       orderBy: { date: 'desc' },
@@ -18,13 +18,22 @@ router.get('/', async (req, res) => {
 })
 
 // 查詢某日某學生某類型的紀錄數量
-router.get('/count', async (req, res) => {
+router.get('/count', async (req: Request, res: Response) => {
   const { datePrefix, studentId, typePrefix } = req.query
+
+  if (
+    typeof datePrefix !== 'string' ||
+    typeof studentId !== 'string' ||
+    typeof typePrefix !== 'string'
+  ) {
+    return res.status(400).json({ count: 0, message: '查詢參數格式錯誤' })
+  }
+
   try {
     const count = await prisma.counseling.count({
       where: {
-        studentId: String(studentId),
-        counselingType: { startsWith: String(typePrefix) },
+        studentId,
+        counselingType: { startsWith: typePrefix },
         date: {
           gte: new Date(`${datePrefix}T00:00:00`),
           lt: new Date(`${datePrefix}T23:59:59`),
@@ -39,8 +48,13 @@ router.get('/count', async (req, res) => {
 })
 
 // 新增輔導紀錄（docId 可作為 client 端識別用，不影響 DB）
-router.post('/:docId', async (req, res) => {
+router.post('/:docId', async (req: Request, res: Response) => {
   const recordData = req.body
+
+  if (!recordData || typeof recordData !== 'object' || !recordData.date) {
+    return res.status(400).json({ message: '資料格式錯誤' })
+  }
+
   try {
     const created = await prisma.counseling.create({
       data: {
@@ -56,7 +70,7 @@ router.post('/:docId', async (req, res) => {
 })
 
 // 刪除輔導紀錄
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params
   try {
     await prisma.counseling.delete({ where: { id: Number(id) } })

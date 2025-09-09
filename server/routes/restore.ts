@@ -1,51 +1,56 @@
-import { Router } from 'express'
+import { Router, Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 
 const router = Router()
 const prisma = new PrismaClient()
 
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
   const backup = req.body
+
+  if (!backup || typeof backup !== 'object') {
+    return res.status(400).json({ success: false, message: '備份資料格式錯誤' })
+  }
+
   try {
     let collectionCount = 0
     let documentCount = 0
 
-    if (backup.students) {
+    if (Array.isArray(backup.students)) {
       await prisma.student.deleteMany()
       await prisma.student.createMany({ data: backup.students })
       collectionCount++
       documentCount += backup.students.length
     }
 
-    if (backup.attendance) {
+    if (Array.isArray(backup.attendance)) {
       await prisma.attendance.deleteMany()
       await prisma.attendance.createMany({ data: backup.attendance })
       collectionCount++
       documentCount += backup.attendance.length
     }
 
-    if (backup.counselingRecords) {
+    if (Array.isArray(backup.counselingRecords)) {
       await prisma.counseling.deleteMany()
       await prisma.counseling.createMany({ data: backup.counselingRecords })
       collectionCount++
       documentCount += backup.counselingRecords.length
     }
 
-    if (backup.announcements) {
+    if (Array.isArray(backup.announcements)) {
       await prisma.bulletin.deleteMany()
       await prisma.bulletin.createMany({ data: backup.announcements })
       collectionCount++
       documentCount += backup.announcements.length
     }
 
-    if (backup.semesters) {
+    if (Array.isArray(backup.semesters)) {
       await prisma.semester.deleteMany()
       await prisma.semester.createMany({ data: backup.semesters })
       collectionCount++
       documentCount += backup.semesters.length
     }
 
-    if (backup.users) {
+    if (Array.isArray(backup.users)) {
       await prisma.user.deleteMany()
       await prisma.user.createMany({ data: backup.users })
       collectionCount++

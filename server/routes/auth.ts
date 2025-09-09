@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Router, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { PrismaClient } from '@prisma/client'
 
@@ -6,39 +6,63 @@ const router = Router()
 const prisma = new PrismaClient()
 const JWT_SECRET = process.env.JWT_SECRET!
 
-router.post('/login', async (req, res) => {
+// 登入
+router.post('/login', async (req: Request, res: Response) => {
   const { email, password } = req.body
-  const user = await prisma.user.findFirst({ where: { email, code: password } })
 
-  if (!user) return res.status(401).json({ message: '帳號或密碼錯誤' })
+  if (!email || !password) {
+    return res.status(400).json({ message: '請提供帳號與密碼' })
+  }
 
-  const token = jwt.sign({ uid: user.id, role: user.role }, JWT_SECRET, { expiresIn: '7d' })
+  try {
+    const user = await prisma.user.findFirst({
+      where: { email, passwordHash: password },
+    })
 
-  res.cookie('token', token, {
-    httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  })
+    if (!user) {
+      return res.status(401).json({ message: '帳號或密碼錯誤' })
+    }
 
-  res.json({ id: user.id, ...user })
+    const token = jwt.sign({ uid: user.id, role: user.role }, JWT_SECRET, {
+      expiresIn: '7d',
+    })
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    })
+
+    // 避免回傳密碼雜湊
+    const { passwordHash, ...safeUser } = user
+    res.json({ id: user.id, ...safeUser })
+  } catch (error) {
+    console.error('Login error:', error)
+    res.status(500).json({ message: '登入失敗' })
+  }
 })
 
-router.post('/logout', (req, res) => {
+// 登出
+router.post('/logout', (req: Request, res: Response) => {
   res.clearCookie('token')
   res.json({ message: '已登出' })
 })
 
-router.get('/me', async (req, res) => {
-  const token = req.cookies.token
+// 取得目前使用者
+router.get('/me', async (req: Request, res: Response) => {
+  const token = req.cookies?.token
   if (!token) return res.status(401).json({ user: null })
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { uid: string }
     const user = await prisma.user.findUnique({ where: { id: decoded.uid } })
     if (!user) return res.status(404).json({ user: null })
-    res.json({ user })
-  } catch {
+
+    const { passwordHash, ...safeUser } = user
+    res.json({ user: safeUser })
+  } catch (error) {
+    console.error('Token verification error:', error)
     res.status(401).json({ user: null })
   }
 })
