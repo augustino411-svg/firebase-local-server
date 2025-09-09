@@ -94,7 +94,9 @@ model User {
   assignedClasses String[] // 陣列儲存班級代碼
   passwordHash    String
 
+  @@map("User") // ✅ 對應資料庫中的大寫表名
 }
+
 model Semester {
   id             Int      @id @default(autoincrement())
   academicYear   String

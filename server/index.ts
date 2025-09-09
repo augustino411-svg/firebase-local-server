@@ -2,6 +2,9 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import devRoutes from './routes/dev'
+app.use('/api/dev', devRoutes)
+
 
 // 讀取環境變數
 dotenv.config({ path: './.env' })
