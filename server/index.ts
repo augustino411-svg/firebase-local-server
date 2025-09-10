@@ -48,6 +48,10 @@ app.use('/api/restore', restoreRoutes)
 import seedRoutes from './routes/seed-user'
 app.use('/api/dev', seedRoutes)
 
+import userRoutes from './routes/userRoutes'
+app.use('/api/user', userRoutes)
+
+
 
 // 啟動伺服器
 const PORT = process.env.PORT || 4000

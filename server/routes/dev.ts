@@ -6,17 +6,14 @@ const prisma = new PrismaClient()
 
 router.get('/debug-user', async (req: Request, res: Response) => {
   try {
-    const user = await prisma.user.findFirst({
-      where: {
-        email: 'augustino411@gmail.com',
-        passwordHash: '12345678',
-      },
-    })
-    res.json({ user })
+    const users = await prisma.user.findMany()
+    console.log('所有使用者:', users)
+    res.json({ users })
   } catch (error) {
     console.error('Debug error:', error)
     res.status(500).json({ message: '查詢失敗' })
   }
 })
+
 
 export default router
