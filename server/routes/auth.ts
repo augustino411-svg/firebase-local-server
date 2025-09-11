@@ -10,7 +10,7 @@ const JWT_SECRET = process.env.JWT_SECRET!
 router.post('/login', async (req: Request, res: Response) => {
   const { email, password } = req.body
 
-  console.log('登入請求:', { email, password }) // ✅ 除錯：印出傳入資料
+  console.log('登入請求:', { email, password })
 
   if (!email || !password) {
     return res.status(400).json({ message: '請提供帳號與密碼' })
@@ -21,13 +21,16 @@ router.post('/login', async (req: Request, res: Response) => {
       where: { email, passwordHash: password },
     })
 
-    console.log('查詢結果:', user) // ✅ 除錯：印出查詢結果
+    console.log('查詢結果:', user)
 
     if (!user) {
       return res.status(401).json({ message: '帳號或密碼錯誤' })
     }
 
-    const token = jwt.sign({ uid: user.id, role: user.role }, JWT_SECRET, {
+    // ✅ 保留 id 為 number，避免後續型別錯誤
+    const tokenPayload = { uid: user.id, role: user.role }
+
+    const token = jwt.sign(tokenPayload, JWT_SECRET, {
       expiresIn: '7d',
     })
 
@@ -58,8 +61,13 @@ router.get('/me', async (req: Request, res: Response) => {
   if (!token) return res.status(401).json({ user: null })
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { uid: string }
-    const user = await prisma.user.findUnique({ where: { id: decoded.uid } })
+    // ✅ uid 為 number，避免 Prisma 型別錯誤
+    const decoded = jwt.verify(token, JWT_SECRET) as { uid: number; role: string }
+
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.uid },
+    })
+
     if (!user) return res.status(404).json({ user: null })
 
     const { passwordHash, ...safeUser } = user

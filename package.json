@@ -54,10 +54,12 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@prisma/client": "^6.15.0",
+    "@prisma/client": "^6.16.0",
     "@types/cookie-parser": "^1.4.9",
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
     "prisma": "^6.15.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
