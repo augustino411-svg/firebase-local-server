@@ -8,7 +8,6 @@ router.post('/seed-user', async (req: Request, res: Response) => {
   try {
     const user = await prisma.user.create({
       data: {
-        id: 'admin001',
         name: 'augustino411',
         email: 'augustino411@gmail.com',
         role: 'admin',
