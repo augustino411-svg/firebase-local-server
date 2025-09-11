@@ -8,7 +8,6 @@ router.post('/', async (req, res) => {
   try {
     const user = await prisma.user.create({
       data: {
-        id: 1001, // ✅ 手動指定一個整數 ID（可改為其他值）
         name: '許宏再',
         email: '03210@cyvs.tyc.edu.tw',
         role: 'admin',
