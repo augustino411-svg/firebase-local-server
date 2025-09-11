@@ -2,27 +2,26 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import devRoutes from './routes/dev'
-
-
 
 // 讀取環境變數
 dotenv.config({ path: './.env' })
 
 const app = express()
 
-app.use('/api/dev', devRoutes)
+// 中介層設定
+app.use(express.json())
+app.use(cookieParser())
 
 // CORS 設定：支援本地與雲端前端
 const allowedOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000'
 app.use(cors({ origin: allowedOrigin, credentials: true }))
 
-app.use(express.json())
-app.use(cookieParser())
-
-// 路由模組（副檔名省略，讓 TypeScript 自動解析）
+// ✅ 路由模組掛載（順序很重要）
 import authRoutes from './routes/auth'
 app.use('/api/auth', authRoutes)
+
+import userRoutes from './routes/userRoutes'
+app.use('/api/user', userRoutes)
 
 import studentRoutes from './routes/students'
 app.use('/api/students', studentRoutes)
@@ -46,16 +45,13 @@ import restoreRoutes from './routes/restore'
 app.use('/api/restore', restoreRoutes)
 
 import seedRoutes from './routes/seed-user'
-app.use('/api/dev', seedRoutes)
+app.use('/api/dev/seed-user', seedRoutes)
 
-import userRoutes from './routes/userRoutes'
-app.use('/api/user', userRoutes)
+import devRoutes from './routes/dev'
+app.use('/api/dev', devRoutes)
 
-
-
-// 啟動伺服器
+// ✅ 啟動伺服器
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
   console.log(`✅ Express server running on http://localhost:${PORT}`)
 })
-

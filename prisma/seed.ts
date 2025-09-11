@@ -8,7 +8,7 @@ async function main() {
       email: '03210@cyvs.tyc.edu.tw',
       role: 'admin',
       assignedClasses: [],
-      passwordHash: '12345678',
+      passwordHash: '12345678', // 暫時使用明文，方便登入測試
     },
   })
 
