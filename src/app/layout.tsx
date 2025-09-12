@@ -6,8 +6,8 @@ import { AuthProvider } from '@/context/auth-context';
 import { DataProvider } from '@/context/data-context';
 
 export const metadata: Metadata = {
-  title: '啟英高中進修部小系統',
-  description: '一個現代化的校園管理系統。',
+  title: '啟英高中進修部系統',
+  description: '超難寫校園管理系統。',
 };
 
 export default function RootLayout({
