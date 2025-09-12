@@ -118,3 +118,11 @@ export type Announcement = {
   authorEmail?: string;     // 發布者 Email
   authorRole?: UserRole;    // 發布者角色
 };
+/**
+ * 代表匯入預覽的學生資料。
+ */
+export type StudentPreview = {
+  name: string
+  className: string
+  importStatus?: 'new' | 'existing'
+}

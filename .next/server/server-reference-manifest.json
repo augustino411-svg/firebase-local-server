@@ -1,1 +1,5 @@
-{"node":{"609e6d3cf39c2c3dcfbf6829ff8b6606fa6a96dd8d":{"workers":{"app/attendance-statistics/page":{"moduleId":"19555","async":false},"app/counseling-statistics/page":{"moduleId":"19555","async":false}},"layer":{"app/attendance-statistics/page":"action-browser","app/counseling-statistics/page":"action-browser"},"filename":"../D:\\Users\\123\\桌面\\firebase-local-server\\src\\lib\\actions.ts","exportedName":"getInterventionSuggestions"}},"edge":{},"encryptionKey":"iwijFq7zjG0jZcNinz4Ij9LT5YB/kU+XSPmBMta4obY="}
+{
+  "node": {},
+  "edge": {},
+  "encryptionKey": "iwijFq7zjG0jZcNinz4Ij9LT5YB/kU+XSPmBMta4obY="
+}

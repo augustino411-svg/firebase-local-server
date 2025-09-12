@@ -1,4 +1,8 @@
 // server/index.ts
+process.on('uncaughtException', (err) => {
+  console.error('❌ 未捕捉的例外錯誤:', err)
+})
+
 
 import express from 'express'
 import cookieParser from 'cookie-parser'
