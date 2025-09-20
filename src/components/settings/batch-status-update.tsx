@@ -80,7 +80,8 @@ export default function BatchStatusUpdate() {
 
         startTransition(async () => {
             try {
-                await batchUpdateStudentStatus(Array.from(selectedStudents), newStatusCode, newClassName, changeNote);
+                await batchUpdateStudentStatus({  updates: Array.from(selectedStudents).map(studentId => ({studentId,status: newStatusCode,className: newClassName,note: changeNote,}))
+                });
                 toast({
                     title: '成功',
                     description: `已成功更新 ${selectedStudents.size} 位學生的資料。`,

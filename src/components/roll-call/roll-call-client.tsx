@@ -157,7 +157,9 @@ export default function RollCallClient() {
     setIsSubmitting(true);
     
     try {
-        await addRollCallRecords(attendance, students, selectedClass, format(date, 'yyyy-MM-dd'));
+        await addRollCallRecords({ attendance,  students,  selectedClass,  date: format(date, 'yyyy-MM-dd'),
+        });
+
         toast({
           title: '點名完成',
           description: `已成功儲存 ${selectedClass} 於 ${format(date, 'yyyy-MM-dd')} 的點名紀錄。`,

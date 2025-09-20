@@ -7,13 +7,13 @@
  */
 
 // 114 學年度第一學期 (2025 年 8 月 - 2026 年 1 月)
-const firstSemesterHolidays = [
+const firstSemesterHolidays: string[]  = [
   // 2025
   '2025-09-08', // 中秋節 (補假) - 待確認
   '2025-10-10', // 國慶日
 ];
 
-const firstSemesterWorkdays = [
+const firstSemesterWorkdays: string[]  = [
   // 2025
   // '2025-09-13', // 補中秋節的班 - 待確認
 ];
@@ -34,7 +34,7 @@ const secondSemesterHolidays = [
   '2026-06-19', // 端午節
 ];
 
-const secondSemesterWorkdays = [
+const secondSemesterWorkdays : string[] = [
   // 2026
   '2026-02-21', // 補 2/20 的班
   // 其他補班日待確認

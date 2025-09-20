@@ -15,6 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils';
 import { getSettings, saveSettings } from '@/lib/data-client';
 import { holidays114, workdays114 } from '@/lib/holidays-tw';
+import { Modifiers } from 'react-day-picker';
 
 export default function SemesterSettingsCard() {
   const [holidays, setHolidays] = useState<Date[]>([]);
@@ -79,13 +80,16 @@ export default function SemesterSettingsCard() {
     return workDays;
   }, [semesterStartDate, semesterEndDate, holidays]);
 
-  const handleDayClick = (day: Date, { selected }: { selected: boolean }) => {
-    if (selected) {
-      setHolidays(prev => prev.filter(d => format(d, 'yyyy-MM-dd') !== format(day, 'yyyy-MM-dd')));
+    const handleDayClick = (day: Date, modifiers: Modifiers) => {
+    if (modifiers.selected) {
+      setHolidays(prev =>
+        prev.filter(d => format(d, 'yyyy-MM-dd') !== format(day, 'yyyy-MM-dd'))
+      );
     } else {
       setHolidays(prev => [...prev, day]);
     }
   };
+
 
   const handleDeleteHoliday = (dayToRemove: Date) => {
     setHolidays(prev => prev.filter(d => format(d, 'yyyy-MM-dd') !== format(dayToRemove, 'yyyy-MM-dd')));

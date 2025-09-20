@@ -69,7 +69,7 @@ export default function DataImportClient() {
             try {
                 const result = await previewStudentsFromExcel(data.split(',')[1]);
                 if (result.success && result.data) {
-                    setPreviewData(result.data);
+                    setPreviewData(result.data.map(s => ({ ...s, importStatus: s.importStatus ?? 'new' })));
                     setStep('preview');
                 } else {
                     setError(result.message || '從 Excel 預覽學生資料失敗。');
