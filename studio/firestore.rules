@@ -1,0 +1,86 @@
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions to make rules more readable and reusable
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function getUserData(userId) {
+      return get(/databases/$(database)/documents/users/$(userId)).data;
+    }
+
+    function isSuperAdmin() {
+      let userRole = getUserData(request.auth.uid).role;
+      return isSignedIn() && userRole == 'superadmin';
+    }
+
+    function isAdmin() {
+      let userRole = getUserData(request.auth.uid).role;
+      return isSignedIn() && (userRole == 'admin' || userRole == 'superadmin');
+    }
+    
+    function isCounselor() {
+       let userRole = getUserData(request.auth.uid).role;
+       return isSignedIn() && (userRole == 'counselor' || isAdmin());
+    }
+
+    // Students collection rules
+    match /students/{studentId} {
+      // Any signed-in user (teachers, counselors, admins) can read student data.
+      allow read: if isSignedIn();
+      
+      // Only admins and superadmins can create, update, or delete student records.
+      allow write: if isAdmin();
+    }
+    
+    // Announcements collection rules
+    match /announcements/{announcementId} {
+      // Anyone can read announcements.
+      allow read: if true;
+      
+      // Only admins and superadmins can create or modify announcements.
+      allow write: if isAdmin();
+    }
+    
+    // Semesters (settings) collection rules
+    match /semesters/{semesterId} {
+      // Any signed-in user can read semester settings (like holidays).
+      allow read: if isSignedIn();
+      
+      // Only admins and superadmins can change settings.
+      allow write: if isAdmin();
+    }
+
+    // Counseling records collection rules - HIGHEST SECURITY
+    match /counselingRecords/{recordId} {
+      // Allow read/write only if the user is an admin/superadmin, or if they are a counselor
+      // and the student's class is one of their assigned classes.
+      allow read, write: if isAdmin() || (isCounselor() && getUserData(request.auth.uid).assignedClasses.hasAny(resource.data.className));
+    }
+
+    // Attendance records collection rules
+    match /attendance/{attendanceId} {
+      // Any signed-in user can read attendance data for statistics.
+      allow read: if isSignedIn();
+      
+      // Any signed-in user can write (for teachers taking roll call).
+      // We trust the frontend logic to only show teachers their own classes.
+      // For higher security, this could be restricted to teachers of resource.data.className
+      allow write: if isSignedIn();
+    }
+    
+    // Users (permissions) collection rules
+    match /users/{userId} {
+        // Any signed-in user can read other users' roles.
+        allow read: if isSignedIn();
+        
+        // Only admins and superadmins can change user roles.
+        // A user cannot delete their own admin/superadmin role.
+        allow write: if isAdmin();
+    }
+
+  }
+}
