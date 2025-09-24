@@ -33,10 +33,12 @@ const buttonVariants = cva(
 
 // 擴充 ButtonProps 型別，加入 variant 和 size
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'default' | 'outline' | 'ghost' | 'link' | 'destructive';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
   asChild?: boolean;
 }
+
 
 // 建立 Button 元件，支援 variant 和 size 屬性
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
