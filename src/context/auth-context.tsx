@@ -35,6 +35,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const { toast } = useToast()
 
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE
+
   // 初次載入：從 sessionStorage 或 API 取得使用者
   useEffect(() => {
     const restoreAuth = async () => {
@@ -44,7 +46,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setPermission(JSON.parse(stored))
         }
 
-        const res = await fetch('/api/auth/me')
+        const res = await fetch(`${API_BASE}/api/auth/me`, {
+          method: 'GET',
+          credentials: 'include',
+        })
+
         if (res.ok) {
           const data = await res.json()
           if (data?.user) {
@@ -62,7 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     restoreAuth()
-  }, [])
+  }, [API_BASE])
 
   // 權限導向邏輯
   useEffect(() => {
@@ -98,13 +104,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   )
 
   const manualSignOut = useCallback(() => {
-    fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
+    fetch(`${API_BASE}/api/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    }).finally(() => {
       setPermission(null)
       sessionStorage.removeItem(AUTH_STORAGE_KEY)
       router.push('/login')
       toast({ title: '已成功登出' })
     })
-  }, [router, toast])
+  }, [router, toast, API_BASE])
 
   return (
     <AuthContext.Provider
