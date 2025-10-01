@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Student {
+  studentId           String   @id
+  name                String
+  gender              String?     // "1" 或 "2"
+  birthDate           String?     // 例如 "0951120"
+  nationalId          String?     // 身分證字號
+  currentClass        String?     // 現在班級
+  seatNumber          String?     // 座號
+  guardianName        String?
+  guardianMobile      String?
+  guardianRelation    String?
+  educationLevel      String?
+  statusCode          String?
+  contactAddress      String?
+  contactPhone        String?
+  contactZip          String?
+  residenceAddress    String?
+  residencePhone      String?
+  residenceZip        String?
+  mobile              String?
+  fatherMobile        String?
+  motherMobile        String?
+  graduatedSchool     String?
+  ethnicity           String?
+  mountainOrPlain     String?
+  bloodType           String?
+  specialCode         String?
+  email               String?
+  changeLog           Json?       // 儲存異動紀錄陣列
+  photoUrl            String?     // 預留照片欄位
+  createdAt           DateTime    @default(now())
+}
+
+model Attendance {
+  id          Int      @id @default(autoincrement())
+  studentId   String
+  studentName String?
+  className   String?
+  date        DateTime
+  period      String?
+  status      String?
+  content     String?
+  createdAt   DateTime @default(now())
+}
+model Counseling {
+  id              Int      @id @default(autoincrement())
+  studentId       String
+  className       String?
+  counselingType  String?
+  recordType      String?
+  inquiryMethod   String?
+  notes           String?
+  contactPerson   String?
+  date            DateTime
+  semester        String?
+  visibleToTeacher String?
+  authorEmail     String?
+  authorName      String?
+}
+
+
+model User {
+  id              String   @id
+  name            String
+  email           String   @unique
+  role            String
+  assignedClasses String[] // 陣列儲存班級代碼
+}
+model Semester {
+  id             Int      @id @default(autoincrement())
+  academicYear   String
+  label          String
+  semester       String
+  startDate      DateTime
+  endDate        DateTime
+  holidays       String[] // 假日陣列
+  holidayDates   String[] // 額外假日陣列
+}
+model Bulletin {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  createdAt   DateTime @default(now())
+  authorEmail String
+  authorName  String
+}
+

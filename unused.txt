@@ -1,0 +1,125 @@
+\studio\next.config.ts:30 - default
+\studio\tailwind.config.ts:3 - default
+\.next\types\routes.d.ts:27 - ParamsOf
+\.next\types\routes.d.ts:35 - PageRoutes (used in module)
+\.next\types\routes.d.ts:35 - RedirectRoutes (used in module)
+\.next\types\routes.d.ts:35 - RewriteRoutes (used in module)
+\server\routes\seed-user.ts:25 - default
+\src\app\layout.tsx:11 - default
+\src\app\layout.tsx:6 - metadata
+\src\hooks\use-toast.ts:77 - reducer (used in module)
+\src\hooks\use-toast.ts:194 - toast (used in module)
+\src\hooks\useEmblaCarousel.ts:3 - useEmbla
+\src\lib\data-client.ts:66 - getUserRole
+\src\lib\data-client.ts:80 - getStudentsByClass
+\src\lib\data-client.ts:89 - getStudentById
+\src\lib\data-client.ts:150 - getAttendanceByClass
+\src\lib\data-client.ts:159 - getRollCallRecordsByClassAndDate
+\src\lib\data-client.ts:244 - getAnnouncementsCountForDay
+\src\modules\auth.ts:9 - authHandler
+\.next\types\app\page.ts:54 - PageProps (used in module)
+\.next\types\app\page.ts:58 - LayoutProps
+\src\components\students\student-detail-client.tsx:27 - default
+\src\components\ui\alert-dialog.tsx:131 - AlertDialogPortal (used in module)
+\src\components\ui\alert-dialog.tsx:132 - AlertDialogOverlay (used in module)
+\src\components\ui\badge.tsx:36 - badgeVariants (used in module)
+\src\components\ui\button.tsx:35 - ButtonProps (used in module)
+\src\components\ui\calendar.tsx:10 - CalendarProps (used in module)
+\src\components\ui\card.tsx:79 - CardFooter (used in module)
+\src\components\ui\carousel.tsx:229 - CarouselApi (used in module)
+\src\components\ui\carousel.tsx:230 - Carousel (used in module)
+\src\components\ui\carousel.tsx:231 - CarouselContent (used in module)
+\src\components\ui\carousel.tsx:232 - CarouselItem (used in module)
+\src\components\ui\carousel.tsx:233 - CarouselPrevious (used in module)
+\src\components\ui\carousel.tsx:234 - CarouselNext (used in module)
+\src\components\ui\chart.tsx:9 - ChartConfig (used in module)
+\src\components\ui\chart.tsx:353 - ChartContainer (used in module)
+\src\components\ui\chart.tsx:354 - ChartStyle (used in module)
+\src\components\ui\chart.tsx:355 - ChartTooltip (used in module)
+\src\components\ui\chart.tsx:356 - ChartTooltipContent (used in module)
+\src\components\ui\chart.tsx:357 - ChartLegend (used in module)
+\src\components\ui\chart.tsx:358 - ChartLegendContent (used in module)
+\src\components\ui\dialog.tsx:113 - DialogPortal (used in module)
+\src\components\ui\dialog.tsx:114 - DialogOverlay (used in module)
+\src\components\ui\dialog.tsx:115 - DialogClose (used in module)
+\src\components\ui\dropdown-menu.tsx:189 - DropdownMenuCheckboxItem (used in module)
+\src\components\ui\dropdown-menu.tsx:190 - DropdownMenuRadioItem (used in module)
+\src\components\ui\dropdown-menu.tsx:193 - DropdownMenuShortcut (used in module)
+\src\components\ui\dropdown-menu.tsx:194 - DropdownMenuGroup (used in module)
+\src\components\ui\dropdown-menu.tsx:195 - DropdownMenuPortal (used in module)
+\src\components\ui\dropdown-menu.tsx:196 - DropdownMenuSub (used in module)
+\src\components\ui\dropdown-menu.tsx:197 - DropdownMenuSubContent (used in module)
+\src\components\ui\dropdown-menu.tsx:198 - DropdownMenuSubTrigger (used in module)
+\src\components\ui\dropdown-menu.tsx:199 - DropdownMenuRadioGroup (used in module)
+\src\components\ui\form.tsx:170 - useFormField (used in module)
+\src\components\ui\form.tsx:171 - Form (used in module)
+\src\components\ui\form.tsx:172 - FormItem (used in module)
+\src\components\ui\form.tsx:173 - FormLabel (used in module)
+\src\components\ui\form.tsx:174 - FormControl (used in module)
+\src\components\ui\form.tsx:175 - FormDescription (used in module)
+\src\components\ui\form.tsx:176 - FormMessage (used in module)
+\src\components\ui\form.tsx:177 - FormField (used in module)
+\src\components\ui\menubar.tsx:240 - Menubar (used in module)
+\src\components\ui\menubar.tsx:241 - MenubarMenu (used in module)
+\src\components\ui\menubar.tsx:242 - MenubarTrigger (used in module)
+\src\components\ui\menubar.tsx:243 - MenubarContent (used in module)
+\src\components\ui\menubar.tsx:244 - MenubarItem (used in module)
+\src\components\ui\menubar.tsx:245 - MenubarSeparator (used in module)
+\src\components\ui\menubar.tsx:246 - MenubarLabel (used in module)
+\src\components\ui\menubar.tsx:247 - MenubarCheckboxItem (used in module)
+\src\components\ui\menubar.tsx:248 - MenubarRadioGroup (used in module)
+\src\components\ui\menubar.tsx:249 - MenubarRadioItem (used in module)
+\src\components\ui\menubar.tsx:250 - MenubarPortal (used in module)
+\src\components\ui\menubar.tsx:251 - MenubarSubContent (used in module)
+\src\components\ui\menubar.tsx:252 - MenubarSubTrigger (used in module)
+\src\components\ui\menubar.tsx:253 - MenubarGroup (used in module)
+\src\components\ui\menubar.tsx:254 - MenubarSub (used in module)
+\src\components\ui\menubar.tsx:255 - MenubarShortcut (used in module)
+\src\components\ui\progress.tsx:28 - Progress (used in module)
+\src\components\ui\scroll-area.tsx:48 - ScrollArea (used in module)
+\src\components\ui\scroll-area.tsx:48 - ScrollBar (used in module)
+\src\components\ui\select.tsx:151 - SelectGroup (used in module)
+\src\components\ui\select.tsx:155 - SelectLabel (used in module)
+\src\components\ui\select.tsx:157 - SelectSeparator (used in module)
+\src\components\ui\select.tsx:158 - SelectScrollUpButton (used in module)
+\src\components\ui\select.tsx:159 - SelectScrollDownButton (used in module)
+\src\components\ui\sheet.tsx:131 - SheetPortal (used in module)
+\src\components\ui\sheet.tsx:132 - SheetOverlay (used in module)
+\src\components\ui\sheet.tsx:133 - SheetTrigger (used in module)
+\src\components\ui\sheet.tsx:134 - SheetClose (used in module)
+\src\components\ui\sheet.tsx:137 - SheetFooter (used in module)
+\src\components\ui\sheet.tsx:139 - SheetDescription (used in module)
+\src\components\ui\sidebar.tsx:745 - SidebarGroup (used in module)
+\src\components\ui\sidebar.tsx:746 - SidebarGroupAction (used in module)
+\src\components\ui\sidebar.tsx:747 - SidebarGroupContent (used in module)
+\src\components\ui\sidebar.tsx:748 - SidebarGroupLabel (used in module)
+\src\components\ui\sidebar.tsx:750 - SidebarInput (used in module)
+\src\components\ui\sidebar.tsx:753 - SidebarMenuAction (used in module)
+\src\components\ui\sidebar.tsx:754 - SidebarMenuBadge (used in module)
+\src\components\ui\sidebar.tsx:757 - SidebarMenuSkeleton (used in module)
+\src\components\ui\sidebar.tsx:762 - SidebarRail (used in module)
+\src\components\ui\sidebar.tsx:763 - SidebarSeparator (used in module)
+\src\components\ui\slider.tsx:28 - Slider (used in module)
+\src\components\ui\switch.tsx:29 - Switch (used in module)
+\src\components\ui\table.tsx:116 - TableCaption (used in module)
+\src\components\ui\toast.tsx:128 - ToastAction (used in module)
+\.next\types\app\admin\layout.ts:54 - PageProps
+\.next\types\app\admin\layout.ts:58 - LayoutProps (used in module)
+\.next\types\app\attendance-statistics\page.ts:54 - PageProps (used in module)
+\.next\types\app\attendance-statistics\page.ts:58 - LayoutProps
+\.next\types\app\counseling-statistics\page.ts:54 - PageProps (used in module)
+\.next\types\app\counseling-statistics\page.ts:58 - LayoutProps
+\.next\types\app\login\page.ts:54 - PageProps (used in module)
+\.next\types\app\login\page.ts:58 - LayoutProps
+\.next\types\app\roll-call\page.ts:54 - PageProps (used in module)
+\.next\types\app\roll-call\page.ts:58 - LayoutProps
+\.next\types\app\seating-chart\page.ts:54 - PageProps (used in module)
+\.next\types\app\seating-chart\page.ts:58 - LayoutProps
+\.next\types\app\students\page.ts:54 - PageProps (used in module)
+\.next\types\app\students\page.ts:58 - LayoutProps
+\.next\types\app\admin\batch-status\page.ts:54 - PageProps (used in module)
+\.next\types\app\admin\batch-status\page.ts:58 - LayoutProps
+\.next\types\app\admin\settings\page.ts:54 - PageProps (used in module)
+\.next\types\app\admin\settings\page.ts:58 - LayoutProps
+\.next\types\app\admin\users\page.ts:54 - PageProps (used in module)
+\.next\types\app\admin\users\page.ts:58 - LayoutProps

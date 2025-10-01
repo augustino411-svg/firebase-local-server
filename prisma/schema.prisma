@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Student {
+  studentId           String   @id
+  nationalId          String?     // 身份證號
+  name                String       // 中文姓名
+  englishName         String?      // 英文姓名
+  gender              String?      // "1" 或 "2"
+  birthDate           String?      // 民國格式，如 "0951120"
+  birthPlace          String?      // 出生地
+  division            String?      // 部別
+  curriculumYear      String?      // 課程適用年度
+  educationSystem     String?      // 學制
+  classGroupCode      String?      // 班群代碼
+  statusCode          String?      // 在學狀態代碼
+  classCode           String?      // 班級代碼
+  currentClass        String?      // 班級名稱
+  seatNumber          String?      // 學生座號
+  specialCode         String?      // 特殊身份代碼
+  academicStatusCode  String?      // 學籍狀態代碼
+  email               String?      // 電子信箱
+  mobile              String?      // 學生行動電話
+  bloodType           String?      // 血型
+  mountainOrPlain     String?      // 山地/平地
+  ethnicity           String?      // 原住民族別
+  residenceZip        String?      // 戶籍地郵區
+  residenceAddress    String?      // 戶籍地址
+  residencePhone      String?      // 戶籍地電話
+  contactZip          String?      // 通訊地郵區
+  contactAddress      String?      // 通訊地址
+  contactPhone        String?      // 通訊地電話
+  guardianName        String?      // 監護人姓名
+  guardianRelation    String?      // 監護人關係
+  guardianOccupation  String?      // 家長職業別
+  guardianMobile      String?      // 監護人行動電話
+  motherMobile        String?      // 母親行動電話
+  fatherMobile        String?      // 父親行動電話
+  graduatedSchool     String?      // 畢業學校
+  admissionType       String?      // 入學管道
+  educationLevel      String?      // 新生教育程度
+  scoreChinese        String?      // 入學成績-國文
+  scoreEnglish        String?      // 入學成績-英語
+  scoreMath           String?      // 入學成績-數學
+  scoreSocial         String?      // 入學成績-社會
+  scoreScience        String?      // 入學成績-自然
+  scoreWriting        String?      // 入學成績-寫作
+  changeLog           Json?        // 異動紀錄（可選）
+  photoUrl            String?      // 預留照片欄位
+  createdAt           DateTime     @default(now())
+}
+
+
+model Attendance {
+  id          Int      @id @default(autoincrement())
+  studentId   String
+  studentName String?
+  className   String?
+  date        DateTime
+  period      String?
+  status      String?
+  content     String?
+  createdAt   DateTime @default(now())
+}
+model Counseling {
+  id              Int      @id @default(autoincrement())
+  studentId       String
+  className       String?
+  counselingType  String?
+  recordType      String?
+  inquiryMethod   String?
+  notes           String?
+  contactPerson   String?
+  date            DateTime
+  semester        String?
+  visibleToTeacher String?
+  authorEmail     String?
+  authorName      String?
+}
+
+
+model User {
+  id              Int   @id @default(autoincrement()) // ✅ 應為 Int
+  name            String
+  email           String   @unique
+  role            String
+  assignedClasses String[] // 陣列儲存班級代碼
+  passwordHash    String
+
+  @@map("User") // ✅ 對應資料庫中的大寫表名
+}
+
+model Semester {
+  id             Int      @id @default(autoincrement())
+  academicYear   String
+  label          String
+  semester       String
+  startDate      DateTime
+  endDate        DateTime
+  holidays       String[] // 假日陣列
+  holidayDates   String[] // 額外假日陣列
+}
+model Bulletin {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  createdAt   DateTime @default(now())
+  authorEmail String
+  authorName  String
+}
+
