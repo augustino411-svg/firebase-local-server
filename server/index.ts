@@ -19,8 +19,22 @@ app.use(express.json())
 app.use(cookieParser())
 
 // ✅ CORS 設定：支援本地與雲端前端
-const allowedOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000'
-app.use(cors({ origin: allowedOrigin, credentials: true }))
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://firebase-local-server.onrender.com',
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('❌ CORS blocked: ' + origin));
+    }
+  },
+  credentials: true,
+}));
+
 
 // ✅ 路由模組掛載（依功能分群）
 
