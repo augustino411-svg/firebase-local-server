@@ -16,11 +16,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ CORS 設定：支援本地與雲端前端
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://firebase-local-server.onrender.com',
-];
+// ✅ CORS 設定：支援本地與雲端前端（改用環境變數）
+const allowedOrigins = process.env.CORS_ORIGINS?.split(',') ?? [];
 
 app.use(cors({
   origin: (origin, callback) => {
