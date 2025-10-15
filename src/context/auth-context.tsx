@@ -86,21 +86,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const manualSignIn = useCallback(
     async (email: string, password: string) => {
-      const userPermission = await signInWithForm(email, password)
+      try {
+        const userPermission = await signInWithForm(email, password)
 
-      // 特殊帳號提升權限
-      if (
-        userPermission?.email === 'augustino411@gmail.com' ||
-        userPermission?.email === '03210@cyvs.edu.tyc.tw'
-      ) {
-        userPermission.role = 'admin'
+        // 特殊帳號提升權限
+        if (
+          userPermission?.email === 'augustino411@gmail.com' ||
+          userPermission?.email === '03210@cyvs.edu.tyc.tw'
+        ) {
+          userPermission.role = 'admin'
+        }
+
+        setPermission(userPermission)
+        sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userPermission))
+        router.push('/')
+      } catch (error) {
+        toast({
+          title: '登入失敗',
+          description: (error as Error).message,
+        })
       }
-
-      setPermission(userPermission)
-      sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userPermission))
-      router.push('/')
     },
-    [router]
+    [router, toast]
   )
 
   const manualSignOut = useCallback(() => {

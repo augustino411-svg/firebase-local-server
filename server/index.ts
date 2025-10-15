@@ -6,19 +6,25 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 
-// 讀取環境變數
-dotenv.config({ path: './.env' });
+// ✅ 明確載入 /server/.env
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 const app = express();
-
-// ✅ 中介層設定
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ CORS 設定：支援本地與雲端前端（改用環境變數）
+// ✅ CORS 設定
 const allowedOrigins = process.env.CORS_ORIGINS?.split(',') ?? [];
-
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -30,18 +36,17 @@ app.use(cors({
   credentials: true,
 }));
 
-// 🔧 補上必要標頭（讓 cookie 能送出）
+// ✅ 處理 OPTIONS 預檢請求
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+    res.sendStatus(204);
+  } else {
+    next();
   }
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
 });
 
-// 🔧 處理預檢請求（OPTIONS）
-app.options('*', cors());
 
 // ✅ 路由模組掛載（依功能分群）
 import authRoutes from './routes/auth';

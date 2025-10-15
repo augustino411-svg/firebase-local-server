@@ -1,10 +1,14 @@
 import { Router, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const router = Router();
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET!;
+const sameSiteValue = (process.env.COOKIE_SAMESITE ?? 'none') as 'none' | 'lax' | 'strict';
 
 // ✅ 登入
 router.post('/login', async (req: Request, res: Response) => {
@@ -31,10 +35,13 @@ router.post('/login', async (req: Request, res: Response) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'none',
+      secure: process.env.COOKIE_SECURE === 'true',
+      sameSite: sameSiteValue,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+
+    // ✅ Debug：確認 cookie 是否送出
+    console.log('✅ Set-Cookie headers:', res.getHeaders()['set-cookie']);
 
     const { passwordHash, ...safeUser } = user;
     res.json(safeUser);

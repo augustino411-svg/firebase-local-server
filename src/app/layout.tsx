@@ -1,17 +1,17 @@
-import type { Metadata } from 'next';
-import { Toaster } from "@/components/ui/toaster";
-import { AuthProvider } from '@/context/auth-context';
-import { DataProvider } from '@/context/data-context';
+import type { Metadata } from 'next'
+import { Toaster } from '@/components/ui/toaster'
+import { AuthProvider } from '@/context/auth-context'
+import { DataProvider } from '@/context/data-context'
 
 export const metadata: Metadata = {
   title: '啟英高中進修部系統',
   description: '超難寫校園管理系統。',
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="zh-TW" suppressHydrationWarning>
@@ -27,7 +27,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
 
-        {/* CSS 變數初始化（可放入 output.css 或這裡） */}
+        {/* CSS 變數初始化 */}
         <style>{`
           :root {
             --background: 0 0% 100%;
@@ -60,5 +60,5 @@ export default function RootLayout({
         <Toaster />
       </body>
     </html>
-  );
+  )
 }

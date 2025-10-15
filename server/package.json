@@ -7,14 +7,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node --max-old-space-size=2048 dist/index.js",
     "start:frontend": "next start",
     "dev:server": "ts-node -P tsconfig.server.json server/index.ts",
-    "migrate": "prisma migrate deploy",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\"",
+    "migrate": "cd server && npx prisma migrate deploy",
+    "generate": "cd server && npx prisma generate",
+    "seed": "ts-node server/prisma/seed.ts",
     "build:server": "tsc -p tsconfig.server.json",
-    "render-start": "npm run migrate && npm run build:server && npm run start",
-    "seed": "ts-node prisma/seed.ts",
-    "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\""
+    "render-start": "cd server && npm run migrate && npm run build:server && npm run start"
   },
   "keywords": [],
   "author": "",

@@ -22,8 +22,9 @@ export async function signInWithForm(email: string, password: string): Promise<U
     credentials: 'include',
   })
   if (!res.ok) {
-    const error = await res.json()
-    throw new Error(error.message || '登入失敗')
+    const error = await res.json();
+    console.error('登入失敗:', error.message);
+    throw new Error(error.message || '登入失敗');
   }
   return await res.json()
 }
