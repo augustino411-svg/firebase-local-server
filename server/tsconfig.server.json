@@ -6,12 +6,13 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "outDir": "dist",
+    "rootDir": ".",                // ✅ 關鍵：從 /server 根目錄開始編譯
     "strict": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["server/*"]
+      "@/*": ["*"]                 // ✅ 修正：不需加 server/，因為已在 server 裡
     }
   },
-  "include": ["server/**/*.ts"],
+  "include": ["./**/*.ts"],        // ✅ 明確指定目前目錄下所有 .ts 檔案
   "exclude": ["node_modules"]
 }
