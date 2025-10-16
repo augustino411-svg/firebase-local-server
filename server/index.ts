@@ -1,30 +1,23 @@
-process.on('uncaughtException', (err) => {
-  console.error('❌ 未捕捉的例外錯誤:', err);
-});
-
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// ✅ 明確載入 /server/.env
+process.on('uncaughtException', (err) => {
+  console.error('❌ 未捕捉的例外錯誤:', err);
+});
+
+// ✅ 明確載入 .env
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ CORS 設定
+// ✅ CORS 設定（合併處理）
 const allowedOrigins = process.env.CORS_ORIGINS?.split(',') ?? [];
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
+
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -34,21 +27,11 @@ app.use(cors({
     }
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// ✅ 處理 OPTIONS 預檢請求
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-    res.sendStatus(204);
-  } else {
-    next();
-  }
-});
-
-
-// ✅ 路由模組掛載（依功能分群）
+// ✅ 路由模組掛載
 import authRoutes from './routes/auth';
 app.use('/api/auth', authRoutes);
 

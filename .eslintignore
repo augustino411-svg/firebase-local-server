@@ -1,3 +1,14 @@
-.next/
+# 前端編譯產物
+client/.next/
+client/dist/
+client/node_modules/
+
+# 後端編譯產物
+server/dist/
+server/node_modules/
+
+# 通用忽略
 node_modules/
-dist/
+*.config.js
+*.config.cjs
+*.tsbuildinfo
