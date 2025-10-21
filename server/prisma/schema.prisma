@@ -91,11 +91,20 @@ model User {
   name            String
   email           String   @unique
   role            String
-  assignedClasses String[] // 陣列儲存班級代碼
+  assignedClasses AssignedClass[] // ✅ 改用關聯表
   passwordHash    String
 
   @@map("User") // ✅ 對應資料庫中的大寫表名
 }
+
+model AssignedClass {
+  id     String @id @default(uuid())
+  code   String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    // ✅ 改為 Int，與 User.id 一致
+}
+
+
 
 model Semester {
   id             Int      @id @default(autoincrement())
@@ -104,9 +113,25 @@ model Semester {
   semester       String
   startDate      DateTime
   endDate        DateTime
-  holidays       String[] // 假日陣列
-  holidayDates   String[] // 額外假日陣列
+  holidays       Holiday[]      // ✅ 關聯表
+  holidayDates   HolidayDate[]  // ✅ 關聯表
 }
+model Holiday {
+  id          String   @id @default(uuid())
+  name        String
+  semester    Semester @relation(fields: [semesterId], references: [id])
+  semesterId  Int      // ✅ 改為 Int
+
+}
+
+model HolidayDate {
+  id          String   @id @default(uuid())
+  date        String
+  semester    Semester @relation(fields: [semesterId], references: [id])
+  semesterId  Int      // ✅ 改為 Int
+
+}
+
 model Bulletin {
   id          Int      @id @default(autoincrement())
   title       String

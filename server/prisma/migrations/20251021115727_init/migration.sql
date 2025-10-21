@@ -1,6 +1,6 @@
 -- CreateTable
-CREATE TABLE "public"."Student" (
-    "studentId" TEXT NOT NULL,
+CREATE TABLE "Student" (
+    "studentId" TEXT NOT NULL PRIMARY KEY,
     "nationalId" TEXT,
     "name" TEXT NOT NULL,
     "englishName" TEXT,
@@ -45,29 +45,25 @@ CREATE TABLE "public"."Student" (
     "scoreWriting" TEXT,
     "changeLog" JSONB,
     "photoUrl" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "Student_pkey" PRIMARY KEY ("studentId")
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateTable
-CREATE TABLE "public"."Attendance" (
-    "id" SERIAL NOT NULL,
+CREATE TABLE "Attendance" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "studentId" TEXT NOT NULL,
     "studentName" TEXT,
     "className" TEXT,
-    "date" TIMESTAMP(3) NOT NULL,
+    "date" DATETIME NOT NULL,
     "period" TEXT,
     "status" TEXT,
     "content" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "Attendance_pkey" PRIMARY KEY ("id")
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateTable
-CREATE TABLE "public"."Counseling" (
-    "id" SERIAL NOT NULL,
+CREATE TABLE "Counseling" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "studentId" TEXT NOT NULL,
     "className" TEXT,
     "counselingType" TEXT,
@@ -75,52 +71,65 @@ CREATE TABLE "public"."Counseling" (
     "inquiryMethod" TEXT,
     "notes" TEXT,
     "contactPerson" TEXT,
-    "date" TIMESTAMP(3) NOT NULL,
+    "date" DATETIME NOT NULL,
     "semester" TEXT,
     "visibleToTeacher" TEXT,
     "authorEmail" TEXT,
-    "authorName" TEXT,
-
-    CONSTRAINT "Counseling_pkey" PRIMARY KEY ("id")
+    "authorName" TEXT
 );
 
 -- CreateTable
-CREATE TABLE "public"."User" (
-    "id" TEXT NOT NULL,
+CREATE TABLE "User" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "role" TEXT NOT NULL,
-    "assignedClasses" TEXT[],
-    "passwordHash" TEXT NOT NULL,
-
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    "passwordHash" TEXT NOT NULL
 );
 
 -- CreateTable
-CREATE TABLE "public"."Semester" (
-    "id" SERIAL NOT NULL,
+CREATE TABLE "AssignedClass" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "code" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
+    CONSTRAINT "AssignedClass_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "Semester" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "academicYear" TEXT NOT NULL,
     "label" TEXT NOT NULL,
     "semester" TEXT NOT NULL,
-    "startDate" TIMESTAMP(3) NOT NULL,
-    "endDate" TIMESTAMP(3) NOT NULL,
-    "holidays" TEXT[],
-    "holidayDates" TEXT[],
-
-    CONSTRAINT "Semester_pkey" PRIMARY KEY ("id")
+    "startDate" DATETIME NOT NULL,
+    "endDate" DATETIME NOT NULL
 );
 
 -- CreateTable
-CREATE TABLE "public"."Bulletin" (
-    "id" SERIAL NOT NULL,
+CREATE TABLE "Holiday" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "semesterId" INTEGER NOT NULL,
+    CONSTRAINT "Holiday_semesterId_fkey" FOREIGN KEY ("semesterId") REFERENCES "Semester" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "HolidayDate" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "date" TEXT NOT NULL,
+    "semesterId" INTEGER NOT NULL,
+    CONSTRAINT "HolidayDate_semesterId_fkey" FOREIGN KEY ("semesterId") REFERENCES "Semester" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "Bulletin" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "authorEmail" TEXT NOT NULL,
-    "authorName" TEXT NOT NULL,
-
-    CONSTRAINT "Bulletin_pkey" PRIMARY KEY ("id")
+    "authorName" TEXT NOT NULL
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "public"."User"("email");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
