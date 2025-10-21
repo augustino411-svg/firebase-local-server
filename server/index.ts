@@ -20,6 +20,7 @@ const allowedOrigins = process.env.CORS_ORIGINS?.split(',') ?? [];
 
 app.use(cors({
   origin: (origin, callback) => {
+    const allowedOrigins = process.env.CORS_ORIGINS?.split(',') ?? [];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -30,6 +31,15 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// ✅ 健康檢查路由
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV || 'development'
+  });
+});
 
 // ✅ 路由模組掛載
 import authRoutes from './routes/auth';
@@ -61,6 +71,10 @@ app.use('/api/restore', restoreRoutes);
 
 import devRoutes from './routes/dev';
 app.use('/api/dev', devRoutes);
+
+// ✅ 新增 seed-user 路由（保留原有功能）
+import seedUserRouter from './routes/seed-user';
+app.use('/api', seedUserRouter);
 
 // ✅ 啟動伺服器
 const PORT = process.env.PORT || 4000;

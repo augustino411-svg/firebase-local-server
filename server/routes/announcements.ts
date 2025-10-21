@@ -17,11 +17,11 @@ router.get('/', async (req: Request, res: Response) => {
     res.json(announcements);
   } catch (error) {
     console.error('❌ 查詢公告失敗:', error);
-    res.status(500).json({ message: '查詢失敗' });
+    res.status(500).json({ message: '查詢失敗', error: String(error) });
   }
 });
 
-// ✅ 查詢某日公告數量（prefix = "2025-09-08"）
+// ✅ 查詢某日公告數量
 router.get('/count', async (req: Request, res: Response) => {
   const { prefix } = req.query;
   if (typeof prefix !== 'string') {
@@ -40,7 +40,7 @@ router.get('/count', async (req: Request, res: Response) => {
     res.json({ count });
   } catch (error) {
     console.error('❌ 查詢公告數量失敗:', error);
-    res.status(500).json({ count: 0, message: '查詢失敗' });
+    res.status(500).json({ count: 0, message: '查詢失敗', error: String(error) });
   }
 });
 
@@ -64,7 +64,7 @@ router.post('/', async (req: Request, res: Response) => {
     res.status(201).json(announcement);
   } catch (error) {
     console.error('❌ 新增公告失敗:', error);
-    res.status(400).json({ message: '新增失敗' });
+    res.status(500).json({ message: '新增失敗', error: String(error) });
   }
 });
 
@@ -89,7 +89,7 @@ router.patch('/:id', async (req: Request, res: Response) => {
     res.json(updated);
   } catch (error) {
     console.error('❌ 更新公告失敗:', error);
-    res.status(400).json({ message: '更新失敗' });
+    res.status(500).json({ message: '更新失敗', error: String(error) });
   }
 });
 
@@ -105,7 +105,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
     res.json({ message: '刪除成功' });
   } catch (error) {
     console.error('❌ 刪除公告失敗:', error);
-    res.status(400).json({ message: '刪除失敗' });
+    res.status(500).json({ message: '刪除失敗', error: String(error) });
   }
 });
 

@@ -15,19 +15,26 @@ const jsonHeaders = { 'Content-Type': 'application/json' }
 
 // 使用者登入
 export async function signInWithForm(email: string, password: string): Promise<UserWithRole> {
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE?.trim();
   const res = await fetch(`${API_BASE}/api/auth/login`, {
     method: 'POST',
-    headers: jsonHeaders,
-    body: JSON.stringify({ email, password }),
+    headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-  })
+    body: JSON.stringify({ email, password }),
+  });
+
   if (!res.ok) {
-    const error = await res.json();
-    console.error('登入失敗:', error.message);
-    throw new Error(error.message || '登入失敗');
+    try {
+      const error = await res.json();
+      throw new Error(error.message || error.error || '登入失敗');
+    } catch {
+      throw new Error('登入失敗（無法解析錯誤回應）');
+    }
   }
-  return await res.json()
+
+  return await res.json();
 }
+
 
 // 使用者 CRUD
 export async function getUsers(): Promise<UserWithRole[]> {
