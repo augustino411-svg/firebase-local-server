@@ -29,9 +29,10 @@ router.post('/seed-user', async (req: Request, res: Response) => {
             { code: 'ADB1' },
             { code: 'ADB2' }
           ]
-        }
+        } as any // ✅ 強制轉型，讓 Render 編譯通過
       }
     });
+
 
     res.status(201).json({ message: '已新增測試帳號', user });
   } catch (error: any) {

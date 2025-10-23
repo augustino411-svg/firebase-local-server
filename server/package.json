@@ -2,9 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "scripts": {
+    "build:server": "prisma generate && tsc -p tsconfig.server.json",
     "dev": "ts-node -P tsconfig.server.json index.ts",
     "dev:server": "ts-node -P tsconfig.server.json index.ts",
-    "build:server": "tsc -p tsconfig.server.json",
     "start": "node dist/index.js",
     "migrate": "npx prisma migrate deploy",
     "generate": "npx prisma generate",
