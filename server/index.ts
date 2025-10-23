@@ -8,8 +8,14 @@ process.on('uncaughtException', (err) => {
   console.error('❌ 未捕捉的例外錯誤:', err);
 });
 
-// ✅ 明確載入 .env
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+// 動態判斷執行環境位置
+const isCompiled = __dirname.includes('dist');
+const envPath = isCompiled
+  ? path.resolve(__dirname, '.env')           // 編譯後執行 → dist/.env
+  : path.resolve(__dirname, '../.env');       // 開發階段 → server/.env
+
+dotenv.config({ path: envPath });
+
 
 const app = express();
 app.use(express.json());
