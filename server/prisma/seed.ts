@@ -7,7 +7,13 @@ async function main() {
       name: '許宏再',
       email: '03210@cyvs.tyc.edu.tw',
       role: 'admin',
-      assignedClasses: [],
+      assignedClasses: {
+        create: [
+          { code: 'ADB1' },
+          { code: 'ADB2' }
+        ]
+      }
+,
       passwordHash: '12345678', // 暫時使用明文，方便登入測試
     },
   })

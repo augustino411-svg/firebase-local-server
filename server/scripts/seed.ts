@@ -8,7 +8,12 @@ async function main() {
       passwordHash: '12345678',
       role: 'admin',
       name: 'admin',
-      assignedClasses: [],
+      assignedClasses: {
+        create: [
+          { code: 'ADB1' },
+          { code: 'ADB2' }
+        ]
+      },
     },
   });
   console.log('✅ 測試使用者已建立');

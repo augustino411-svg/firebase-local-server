@@ -25,7 +25,12 @@ router.post('/seed-user', async (req: Request, res: Response) => {
         email,
         passwordHash: '12345678', // ❗ 僅限測試用途，正式環境請加密
         role: 'admin',
-        assignedClasses: ['ADB1'],
+        assignedClasses: {
+          create: [
+            { code: 'ADB1' },
+            { code: 'ADB2' }
+          ]
+        },
       },
     });
 
