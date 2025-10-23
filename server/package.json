@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "scripts": {
-    "build:server": "copy .env dist\\.env && prisma generate && tsc -p tsconfig.server.json",
+    "build:server": "node scripts/copy-env.js && prisma generate && tsc -p tsconfig.server.json",
     "dev": "ts-node -P tsconfig.server.json index.ts",
     "dev:server": "ts-node -P tsconfig.server.json index.ts",
     "start": "node dist/index.js",
