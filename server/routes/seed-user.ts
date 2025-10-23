@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import path from 'path';
 
@@ -18,20 +18,18 @@ router.post('/seed-user', async (req: Request, res: Response) => {
       return res.status(200).json({ message: '帳號已存在', user: existing });
     }
 
-    const assignedClasses: Prisma.AssignedClassCreateNestedManyWithoutUserInput = {
-      create: [
-        { code: 'ADB1' },
-        { code: 'ADB2' }
-      ]
-    };
-
     const user = await prisma.user.create({
       data: {
         name: 'augustino411',
         email,
         role: 'admin',
         passwordHash: '12345678',
-        assignedClasses
+        assignedClasses: {
+          create: [
+            { code: 'ADB1' },
+            { code: 'ADB2' }
+          ]
+        }
       }
     });
 
