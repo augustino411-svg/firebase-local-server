@@ -14,8 +14,7 @@ const envPath = isCompiled
   ? path.resolve(__dirname, '.env')           // 編譯後執行 → dist/.env
   : path.resolve(__dirname, '../.env');       // 開發階段 → server/.env
 
-dotenv.config({ path: envPath });
-
+dotenv.config(); // 不指定 path，讓 Render 自動注入環境變數
 
 const app = express();
 app.use(express.json());
